@@ -25,14 +25,19 @@
 #### 2.2. Интерфейс пользователя <a name="2.2"></a>
 * Пользовательский интерфейс при первом использовании. <br>
     ![img_0](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_0.png)
+    <p/>
 * Пользовательский интерфейс после первого использования. <br>
     ![img_1](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_1.png)
+    <p/>
 * Пользователь отправил сообщение не в формате `mp3/mp4 youtubeLink`. <br>
     ![img_2](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_2.png)
+    <p/>
 * Пользователь отправил сообщение в формате `mp3/mp4 youtubeLink`. <br>
     ![img_3](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_3.png)
+    <p/>
 * Пользователь отправил сообщение в формате `mp3/mp4 youtubeLink` и ссылка оказалась неверной. <br>
     ![img_4](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_4.png)
+    <p/>
 * Пользователь отправил новое сообщение в формате `mp3/mp4 youtubeLink` не дождавшись ответа. <br>
     ![img_5](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_5.png)
 #### 2.3. Характеристики пользователей <a name="2.3"></a>

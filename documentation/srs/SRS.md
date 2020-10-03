@@ -10,8 +10,7 @@
   3.1 [Функциональные требования](#3.1) <br>
   3.2 [Нефункциональные требования](#3.2) <br>
     3.2.1 [Атрибуты качества](#3.2.1) <br>
-      3.2.1.1 [Удобство использования](#3.2.1.1) <br>
-      3.2.1.2 [Ограничения](#3.2.1.2) <br>
+    3.2.2 [Ограничения](#3.2.2) <br>
 4. [Аналоги](#4) <br>
  
 ### 1. Введение <a name="1"></a>
@@ -25,17 +24,17 @@
  Для взаимодействия с [Telegram](https://telegram.org/) используется [Spring framework](https://spring.io/projects/spring-framework) совместно с [Telegram API](https://core.telegram.org/api).
 #### 2.2. Интерфейс пользователя <a name="2.2"></a>
 * Пользовательский интерфейс при первом использовании. <br>
-    ![img_0]()
+    ![img_0](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_0.png)
 * Пользовательский интерфейс после первого использования. <br>
-    ![img_1]()
+    ![img_1](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_1.png)
 * Пользователь отправил сообщение не в формате `mp3/mp4 youtubeLink`. <br>
-    ![img_2]()
+    ![img_2](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_2.png)
 * Пользователь отправил сообщение в формате `mp3/mp4 youtubeLink`. <br>
-    ![img_3]()
+    ![img_3](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_3.png)
 * Пользователь отправил сообщение в формате `mp3/mp4 youtubeLink` и ссылка оказалась неверной. <br>
-    ![img_4]()
+    ![img_4](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_4.png)
 * Пользователь отправил новое сообщение в формате `mp3/mp4 youtubeLink` не дождавшись ответа. <br>
-    ![img_5]()
+    ![img_5](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/img_5.png)
 #### 2.3. Характеристики пользователей <a name="2.3"></a>
  Целевая аудитория бота — все люди, которые не готовы платить деньги за столь тривиальные вещи, как скачивание и потребление контента оффлайн.
 #### 2.4. Предположения и зависимости <a name="2.4"></a>
@@ -56,7 +55,7 @@
   
   * Системные требования бота полностью зависят от ситемных требований Telegram. Более детальную информацию о системных требования Вы можете узнать [здесь](https://telegram.org/faq).
    
-  ##### 3.2.2 Ограничения <a name="3.2.2"></a>
+  #### 3.2.2 Ограничения <a name="3.2.2"></a>
   * Ограничения бота полностью зависят от ситемных требований Telegram. Более детальную информацию об ограничениях Вы можете узнать [здесь](https://telegram.org/faq).
   <a name="security_requirements"/>
   

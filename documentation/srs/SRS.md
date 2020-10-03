@@ -19,7 +19,7 @@
 
 ### 2. Требования пользователя <a name="2"></a>
 #### 2.1. Программные интерфейсы <a name="2.1"></a>
- Проект использует платформу [youtube-dl](https://youtube-dl.org/) для скачивания видеофайлов с [YouTube](https://www.youtube.com/).И [youtubedl-java API](https://github.com/lepouletsuisse/youtubedl-java) для взаимодействия с платформой youtube-dl. <br>
+ Проект использует платформу [youtube-dl](https://youtube-dl.org/) для скачивания видеофайлов с [YouTube](https://www.youtube.com/). И [youtubedl-java API](https://github.com/lepouletsuisse/youtubedl-java) для взаимодействия с платформой youtube-dl. <br>
  Для извлечения аудиодорожки из видеофайла используется библиотека [JAVE (Java Audio Video Encoder)](http://www.sauronsoftware.it/projects/jave/). <br>
  Для взаимодействия с [Telegram](https://telegram.org/) используется [Spring framework](https://spring.io/projects/spring-framework) совместно с [Telegram API](https://core.telegram.org/api).
 #### 2.2. Интерфейс пользователя <a name="2.2"></a>

@@ -9,7 +9,10 @@
     1.5. [Sqlite-jdbc API 3.32.3.2](#1.4) <br>
     1.6. [JAVE 2.3.7](#1.5)
 2. [API бота](#2)
-3. [Структура БД] 
+3. [Структура БД](#3) <br>
+    3.1. [ydBotUsers](#3.1) <br>
+    3.2. [ydBotUploadedFiles](#3.2)<br>
+    3.3. [Пример взаимодействия с БД](#3.3)<br>
 
 ### 1. Используемые технологии <a name="1"></a>
 #### 1.1. Java 15 <a name="1.1"></a>
@@ -30,7 +33,7 @@
 #### 1.6. JAVE 2.3.7 <a name="1.5"></a>
 Это библиотека для работы с видео- и аудиофайлами. При помощи данной библиотеки происходит конвертирование виодеофайлов в аудиофайлы.
 
-### API бота <a name="2"></a>
+### 2. API бота <a name="2"></a>
 Для взаимодействия бота с Telegram, бота нужно зарегестрировать и получить токен, который будет частью `url`, на который бот будет отправлять ответы. Существует два типа реализации ботов в Telegram:
  * Polling bots
  * Webhook bots <br>
@@ -41,8 +44,57 @@
 
 ```java
 @RequestMapping(value = "/", method = RequestMethod.POST)
-	public BotApiMethod onUpdateReceived(@RequestBody Update update) {
-		return ydBot.onWebhookUpdateReceived(update);
+public BotApiMethod onUpdateReceived(@RequestBody Update update) {
+	return ydBot.onWebhookUpdateReceived(update);
 }
 ```
-После обработки пользовательского ввода бот может отправить сообщение, видео- или аудиофайл.
+После обработки пользовательского ввода бот может отправить сообщение, видео- или аудиофайл:
+ * отправка сообщения
+ ```java
+ execute(new SendMessage(chatId, infoMessage));
+ ```
+ * отправка видеофайла
+ ```java
+var video = new SendVideo();
+audio.setVideo(response.getName(), response.getContentStream());
+audio.setChatId(chatId);
+message = execute(video);
+fileId = message.getVideo().getFileId();
+ ```
+ * отправка аудиофайла
+ ```java
+var audio = new SendAudio();
+audio.setAudio(response.getName(), response.getContentStream());
+audio.setChatId(chatId);
+message = execute(audio);
+fileId = message.getAudio().getFileId();
+ ```
+
+### 3. Структура БД <a name="3"></a>
+В проекте используется реляционная легковесная база данных SQLite-3. Для взаимодействия с БД используется драйвер JDBC SQLite. <br>
+База данных используется в проекте для сохранения состояния бота для каждого пользователя и для сохранения уникальных идентификаторов загруженных файлов, чтобы не выполнять скачивания и конвертирования, если это необходимо, лишний раз, а сразу отправлять файл через этот уникальный идентификатор.
+База данных содержит в себе две таблицы: 
+
+#### 3.1. ydBotUsers <a name="3.1"></a>
+![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table-1.PNG) <br>
+Первичным кючем таблицы ***`ydBotUsers`*** является столбец `chatId`.<br>
+В столбце `botState` хранится состояние бота (`botState ∈ { "READY", "BUSY" }`).
+
+#### 3.2. ydBotUploadedFiles <a name="3.2"></a>
+![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table-2.PNG) <br>
+Первичным ключем таблицы ***`ydBotUploadedFiles`*** является столбецы `videoId` и `mediaType`, <br>
+где `videoId` — YouTube ID медиафайла, полученное из ссылки, и `mediaType` — тип медиафайла (`mediaType ∈ { "AUDIO", "VIDEO" }`). <br>
+В столбце `telegramFileId` хранится Telegram ID загруженного файла.
+
+#### 3.3. Пример взаимодействия с БД <a name="3.3"></a>
+Пример подключения и отправки запроса к БД:
+```java
+try (var connection = DriverManager.getConnection(dbUrl)) {
+	var statement = connection.prepareStatement(getUserStateQuery);
+	statement.setLong(1, chatId);
+	var result = statement.executeQuery();
+	return result.next() ? result.getString(1) : null;
+} catch (SQLException ex) {
+	return null;
+}
+```

@@ -76,25 +76,28 @@ fileId = message.getAudio().getFileId();
 База данных содержит в себе две таблицы: 
 
 #### 3.1. ydBotUsers <a name="3.1"></a>
-![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table-1.PNG) <br>
+![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table_1.png) <br>
 Первичным кючем таблицы ***`ydBotUsers`*** является столбец `chatId`.<br>
-В столбце `botState` хранится состояние бота (`botState ∈ { "READY", "BUSY" }`).
+В столбце `botState` хранится состояние бота (`botState ∈ { "0 -> READY", "1 -> BUSY" }`).
 
 #### 3.2. ydBotUploadedFiles <a name="3.2"></a>
-![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table-2.PNG) <br>
+![img](https://github.com/theAngryBeavers/TelegramBot/blob/main/documentation/images/table_2.png) <br>
 Первичным ключем таблицы ***`ydBotUploadedFiles`*** является столбецы `videoId` и `mediaType`, <br>
-где `videoId` — YouTube ID медиафайла, полученное из ссылки, и `mediaType` — тип медиафайла (`mediaType ∈ { "AUDIO", "VIDEO" }`). <br>
+где `videoId` — YouTube ID медиафайла, полученное из ссылки, и `mediaType` — тип медиафайла (`mediaType ∈ { "0 -> AUDIO", "1 -> VIDEO" }`). <br>
 В столбце `telegramFileId` хранится Telegram ID загруженного файла.
 
 #### 3.3. Пример взаимодействия с БД <a name="3.3"></a>
 Пример подключения и отправки запроса к БД:
 ```java
-try (var connection = DriverManager.getConnection(dbUrl)) {
-	var statement = connection.prepareStatement(getUserStateQuery);
-	statement.setLong(1, chatId);
-	var result = statement.executeQuery();
-	return result.next() ? result.getString(1) : null;
-} catch (SQLException ex) {
-	return null;
+synchronized (mutex) {
+	try (var connection = DriverManager.getConnection(dbUrl)) {
+		var statement = connection.prepareStatement(getUserStateQuery);
+		statement.setLong(1, chatId);
+		var result = statement.executeQuery();
+		return result.next() ? result.getInt(1) : null;
+	} catch (SQLException ex) {
+		return null;
+	}
 }
+
 ```

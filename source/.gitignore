@@ -23,6 +23,10 @@ resources/downloadedMedia/
 *.iml
 *.ipr
 
+### Media Files ###
+*.mp3
+*.mp4
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: VideoToAudioConverter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.github.theangrybeavers.ydbot.service.mediaService</a> ]
+</div>
+
+<h1>Coverage Summary for Class: VideoToAudioConverter (com.github.theangrybeavers.ydbot.service.mediaService)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VideoToAudioConverter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VideoToAudioConverter$MockitoMock$239942093</td>
+  </tr>
+  <tr>
+    <td class="name">VideoToAudioConverter$MockitoMock$239942093$auxiliary$9DDghsjR</td>
+  </tr>
+  <tr>
+    <td class="name">VideoToAudioConverter$MockitoMock$239942093$auxiliary$SCogp9Os</td>
+  </tr>
+  <tr>
+    <td class="name">VideoToAudioConverter$MockitoMock$239942093$auxiliary$WyquzLId</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.github.theangrybeavers.ydbot.service.mediaService;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+<i>4</i>&nbsp;import org.springframework.context.annotation.Scope;
+<i>5</i>&nbsp;import org.springframework.stereotype.Service;
+<i>6</i>&nbsp;import ws.schild.jave.AudioAttributes;
+<i>7</i>&nbsp;import ws.schild.jave.Encoder;
+<i>8</i>&nbsp;import ws.schild.jave.EncoderException;
+<i>9</i>&nbsp;import ws.schild.jave.EncodingAttributes;
+<i>10</i>&nbsp;import ws.schild.jave.MultimediaObject;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import java.io.File;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;@Service(&quot;VideoToAudioConverter&quot;)
+<i>15</i>&nbsp;@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+<b class="fc"><i>16</i>&nbsp;public class VideoToAudioConverter {</b>
+<i>17</i>&nbsp;	private final static int BIT_RATE = 128_000;
+<i>18</i>&nbsp;	private final static int AUDIO_CHANNELS = 2;
+<i>19</i>&nbsp;	private final static int SAMPLE_BIT_RATE = 44_100;
+<i>20</i>&nbsp;	private final static String AUDIO_CODEC = &quot;libmp3lame&quot;;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;	public void convert(String inputVideoFile, String outputAudioFile) throws EncoderException {
+<b class="fc"><i>23</i>&nbsp;		Encoder mediaEncoder = new Encoder();</b>
+<i>24</i>&nbsp;
+<b class="fc"><i>25</i>&nbsp;		AudioAttributes audioSettings = new AudioAttributes();</b>
+<b class="fc"><i>26</i>&nbsp;		audioSettings.setBitRate(BIT_RATE);</b>
+<b class="fc"><i>27</i>&nbsp;		audioSettings.setChannels(AUDIO_CHANNELS);</b>
+<b class="fc"><i>28</i>&nbsp;		audioSettings.setSamplingRate(SAMPLE_BIT_RATE);</b>
+<b class="fc"><i>29</i>&nbsp;		audioSettings.setCodec(AUDIO_CODEC);</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;		EncodingAttributes encodingSettings = new EncodingAttributes();</b>
+<b class="fc"><i>32</i>&nbsp;		encodingSettings.setFormat(&quot;mp3&quot;);</b>
+<b class="fc"><i>33</i>&nbsp;		encodingSettings.setAudioAttributes(audioSettings);</b>
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;		File videoInFile = new File(inputVideoFile);</b>
+<b class="fc"><i>36</i>&nbsp;		File audioOutFile = new File(outputAudioFile);</b>
+<i>37</i>&nbsp;
+<b class="fc"><i>38</i>&nbsp;		mediaEncoder.encode(new MultimediaObject(videoInFile), audioOutFile, encodingSettings);</b>
+<b class="fc"><i>39</i>&nbsp;	}</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-04 02:58</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UserRequestProcessor</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.github.theangrybeavers.ydbot.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UserRequestProcessor (com.github.theangrybeavers.ydbot.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserRequestProcessor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,6%
+  </span>
+  <span class="absValue">
+    (25/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.github.theangrybeavers.ydbot.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.github.theangrybeavers.ydbot.model.YdBotResponse;
+<i>4</i>&nbsp;import com.github.theangrybeavers.ydbot.model.YdBotResponseContentType;
+<i>5</i>&nbsp;import com.github.theangrybeavers.ydbot.service.mediaService.VideoToAudioConverter;
+<i>6</i>&nbsp;import com.github.theangrybeavers.ydbot.service.mediaService.YoutubeDownloader;
+<i>7</i>&nbsp;import com.sapher.youtubedl.YoutubeDLException;
+<i>8</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Value;
+<i>10</i>&nbsp;import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+<i>11</i>&nbsp;import org.springframework.context.annotation.PropertySource;
+<i>12</i>&nbsp;import org.springframework.context.annotation.Scope;
+<i>13</i>&nbsp;import org.springframework.stereotype.Service;
+<i>14</i>&nbsp;import ws.schild.jave.EncoderException;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;@Service(&quot;UserRequestProcessor&quot;)
+<i>18</i>&nbsp;@PropertySource(&quot;classpath:/ydBotResponses.properties&quot;)
+<i>19</i>&nbsp;@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+<i>20</i>&nbsp;public class UserRequestProcessor {
+<i>21</i>&nbsp;	private static final String ABSOLUTE_FILE_PATH = &quot;C:\\Users\\pinky\\Desktop\\YD-bot\\src\\main\\resources\\downloadedMedia\\%s.%s&quot;;
+<i>22</i>&nbsp;	private static final String MP3 = &quot;MP3&quot;;
+<i>23</i>&nbsp;	private static final String MP4 = &quot;MP4&quot;;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;	private final UserInputMessageParser messageParser;
+<i>26</i>&nbsp;	private final YoutubeDownloader youtubeDownloader;
+<i>27</i>&nbsp;	private final VideoToAudioConverter videoToAudioConverter;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	@Value(&quot;${response.incorrectVideo}&quot;)
+<i>30</i>&nbsp;	private String incorrectVideo;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;	@Autowired
+<i>33</i>&nbsp;	public UserRequestProcessor(final UserInputMessageParser messageParser,
+<i>34</i>&nbsp;	                            final YoutubeDownloader youtubeDownloader,
+<b class="fc"><i>35</i>&nbsp;	                            final VideoToAudioConverter videoToAudioConverter) {</b>
+<b class="fc"><i>36</i>&nbsp;		this.messageParser = messageParser;</b>
+<b class="fc"><i>37</i>&nbsp;		this.youtubeDownloader = youtubeDownloader;</b>
+<b class="fc"><i>38</i>&nbsp;		this.videoToAudioConverter = videoToAudioConverter;</b>
+<b class="fc"><i>39</i>&nbsp;	}</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;	public YdBotResponse processRequest(String message) {
+<b class="fc"><i>42</i>&nbsp;		boolean isAudio = MP3.equals(messageParser.getOutputFileExtension(message));</b>
+<b class="fc"><i>43</i>&nbsp;		String videoId = messageParser.getYouTubeVideoId(message);</b>
+<b class="fc"><i>44</i>&nbsp;		String convertedAudio = String.format(ABSOLUTE_FILE_PATH, videoId, MP3);</b>
+<b class="fc"><i>45</i>&nbsp;		String downloadedVideo = String.format(ABSOLUTE_FILE_PATH, videoId, MP4);</b>
+<i>46</i>&nbsp;
+<b class="fc"><i>47</i>&nbsp;		YdBotResponseContentType responseContentType = YdBotResponseContentType.MESSAGE;</b>
+<b class="fc"><i>48</i>&nbsp;		String contentPath = null;</b>
+<b class="fc"><i>49</i>&nbsp;		String outMessage = null;</b>
+<b class="fc"><i>50</i>&nbsp;		boolean containsMedia = false;</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;		try {
+<b class="fc"><i>53</i>&nbsp;			youtubeDownloader.download(videoId);</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;			if (isAudio) {</b>
+<b class="fc"><i>56</i>&nbsp;				videoToAudioConverter.convert(downloadedVideo, convertedAudio);</b>
+<i>57</i>&nbsp;			}
+<i>58</i>&nbsp;
+<b class="fc"><i>59</i>&nbsp;			responseContentType = isAudio</b>
+<b class="fc"><i>60</i>&nbsp;					? YdBotResponseContentType.MP3</b>
+<b class="nc"><i>61</i>&nbsp;					: YdBotResponseContentType.MP4;</b>
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;			contentPath = isAudio</b>
+<b class="fc"><i>64</i>&nbsp;					? convertedAudio</b>
+<b class="nc"><i>65</i>&nbsp;					: downloadedVideo;</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;			containsMedia = true;</b>
+<b class="fc"><i>68</i>&nbsp;		} catch (YoutubeDLException | EncoderException ex) {</b>
+<b class="fc"><i>69</i>&nbsp;			outMessage = incorrectVideo + message.split(&quot;\s+&quot;)[1];</b>
+<b class="fc"><i>70</i>&nbsp;		}</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;		return new YdBotResponse(responseContentType,</b>
+<i>73</i>&nbsp;				videoId,
+<i>74</i>&nbsp;				contentPath,
+<i>75</i>&nbsp;				outMessage,
+<i>76</i>&nbsp;				containsMedia);
+<i>77</i>&nbsp;	}
+<i>78</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-04 02:58</div>
+</div>
+</body>
+</html>

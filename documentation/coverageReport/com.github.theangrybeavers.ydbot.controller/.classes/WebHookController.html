@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WebHookController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.github.theangrybeavers.ydbot.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WebHookController (com.github.theangrybeavers.ydbot.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebHookController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/ 10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.github.theangrybeavers.ydbot.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.github.theangrybeavers.ydbot.core.YdBot;
+<i>4</i>&nbsp;import com.github.theangrybeavers.ydbot.model.YdBotInputError;
+<i>5</i>&nbsp;import com.github.theangrybeavers.ydbot.validator.YdBotUserInputValidator;
+<i>6</i>&nbsp;import lombok.extern.slf4j.Slf4j;
+<i>7</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>8</i>&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+<i>9</i>&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+<i>10</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>11</i>&nbsp;import org.springframework.web.bind.annotation.RestController;
+<i>12</i>&nbsp;import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+<i>13</i>&nbsp;import org.telegram.telegrambots.meta.api.objects.Update;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@RestController
+<i>16</i>&nbsp;@RequestMapping(&quot;/&quot;)
+<i>17</i>&nbsp;public class WebHookController {
+<i>18</i>&nbsp;	private final YdBot ydBot;
+<i>19</i>&nbsp;	private final YdBotUserInputValidator ydBotUserInputValidator;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;	@Autowired
+<b class="fc"><i>22</i>&nbsp;	public WebHookController(final YdBot ydBot, final YdBotUserInputValidator ydBotUserInputValidator) {</b>
+<b class="fc"><i>23</i>&nbsp;		this.ydBot = ydBot;</b>
+<b class="fc"><i>24</i>&nbsp;		this.ydBotUserInputValidator = ydBotUserInputValidator;</b>
+<b class="fc"><i>25</i>&nbsp;	}</b>
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;	@PostMapping
+<i>28</i>&nbsp;	public BotApiMethod onUpdateReceived(@RequestBody Update update) {
+<b class="fc"><i>29</i>&nbsp;		if (update.getMessage() != null &amp;&amp; update.getMessage().hasText()) {</b>
+<b class="fc"><i>30</i>&nbsp;			YdBotInputError inputError = ydBotUserInputValidator.validate(update);</b>
+<b class="fc"><i>31</i>&nbsp;			return inputError.hasError()</b>
+<b class="fc"><i>32</i>&nbsp;					? ydBot.onWebhookInputErrorReceived(inputError)</b>
+<b class="fc"><i>33</i>&nbsp;					: ydBot.onWebhookUpdateReceived(update);</b>
+<i>34</i>&nbsp;		}
+<b class="nc"><i>35</i>&nbsp;		return null;</b>
+<i>36</i>&nbsp;	}
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-12-04 02:58</div>
+</div>
+</body>
+</html>
